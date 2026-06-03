@@ -74,8 +74,40 @@ export default function App() {
       backgroundSavedLocsUpdate(defaults);
     }
 
-    // Load initial default weather (Berlin)
-    loadWeatherData(52.52, 13.41, "Berlin", "Germany");
+    // Auto-detect user location on launch
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          let cityName = "Current Location";
+          let countryName = "";
+
+          try {
+            const lookupUrl = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=en`;
+            const response = await fetch(lookupUrl, {
+              headers: { 'User-Agent': 'AeroSkyWeatherDashboardApp' }
+            });
+            if (response.ok) {
+              const data = await response.json();
+              cityName = data.address.city || data.address.town || data.address.village || data.address.suburb || "My Location";
+              countryName = data.address.country || "";
+            }
+          } catch (e) {
+            console.warn("Reverse lookup failed on launch.", e);
+          }
+          await loadWeatherData(lat, lon, cityName, countryName);
+          showToast("Location loaded successfully!", "success");
+        },
+        (error) => {
+          console.warn("Location permission denied or timed out on start. Loading default Berlin.", error);
+          loadWeatherData(52.52, 13.41, "Berlin", "Germany");
+        },
+        { timeout: 8000, enableHighAccuracy: true }
+      );
+    } else {
+      loadWeatherData(52.52, 13.41, "Berlin", "Germany");
+    }
   }, []);
 
   // ==========================================
