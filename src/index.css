@@ -1,7 +1,7 @@
 /* ==========================================================================
-   AeroSky Custom Style Overrides - Premium Obsidian Cosmic Edition
+   AeroSky Custom Style Overrides - Premium Aurora Cyber Edition
    Designed to layer on top of Bootstrap 5.3.3, upgrading structural layouts 
-   with stunning glassmorphism, neon highlights, and dynamic atmospheric glows.
+   with breathing auroras, text neon shadows, glowing border lines, and spring-drawer easings.
    ========================================================================== */
 
 /* ==========================================
@@ -15,7 +15,8 @@
     /* Animation easings */
     --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     --transition-normal: 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-    --transition-slow: 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-spring: 0.65s cubic-bezier(0.34, 1.56, 0.64, 1); /* Elastic spring easing */
 
     /* Card boundaries */
     --radius-sm: 8px;
@@ -24,11 +25,11 @@
     --radius-xl: 32px;
 
     /* Base Obsidian colors */
-    --bg-dark-obsidian: #05040a;
-    --bg-deep-space: #0c0919;
-    --card-glass-bg: rgba(15, 11, 28, 0.45);
+    --bg-dark-obsidian: #040308;
+    --bg-deep-space: #0a0715;
+    --card-glass-bg: rgba(14, 10, 26, 0.52);
     --card-border-color: rgba(255, 255, 255, 0.08);
-    --card-border-hover: rgba(255, 255, 255, 0.22);
+    --card-border-hover: rgba(255, 255, 255, 0.28);
     
     /* Typography colors */
     --text-primary: #f8fafc;
@@ -45,85 +46,107 @@
 }
 
 /* ==========================================
-   2. DYNAMIC WEATHER THEMES (ACCENTS & GLOWS)
+   DYNAMIC WEATHER THEMES (ACCENTS, GLOWS, TEXT NEONS)
    ========================================== */
 .theme-clear-day {
     --accent-glow: linear-gradient(135deg, #f59e0b, #ef4444);
     --glow-color: rgba(245, 158, 11, 0.25);
     --theme-text-accent: #f59e0b;
+    --text-glow: 0 0 25px rgba(245, 158, 11, 0.45);
 }
 
 .theme-clear-night {
     --accent-glow: linear-gradient(135deg, #7c3aed, #06b6d4);
     --glow-color: rgba(124, 58, 237, 0.22);
     --theme-text-accent: #a78bfa;
+    --text-glow: 0 0 25px rgba(167, 139, 250, 0.45);
 }
 
 .theme-cloudy {
     --accent-glow: linear-gradient(135deg, #475569, #94a3b8);
     --glow-color: rgba(100, 116, 139, 0.18);
     --theme-text-accent: #cbd5e1;
+    --text-glow: 0 0 25px rgba(255, 255, 255, 0.1);
 }
 
 .theme-rainy {
     --accent-glow: linear-gradient(135deg, #2563eb, #7c3aed);
     --glow-color: rgba(37, 99, 235, 0.25);
     --theme-text-accent: #60a5fa;
+    --text-glow: 0 0 25px rgba(96, 165, 250, 0.45);
 }
 
 .theme-stormy {
     --accent-glow: linear-gradient(135deg, #6d28d9, #fbbf24);
     --glow-color: rgba(109, 40, 217, 0.28);
     --theme-text-accent: #fcd34d;
+    --text-glow: 0 0 30px rgba(252, 211, 77, 0.45);
 }
 
 .theme-snowy {
     --accent-glow: linear-gradient(135deg, #0ea5e9, #f8fafc);
     --glow-color: rgba(14, 165, 233, 0.2);
     --theme-text-accent: #93c5fd;
+    --text-glow: 0 0 25px rgba(147, 197, 253, 0.35);
 }
 
 .theme-foggy {
     --accent-glow: linear-gradient(135deg, #0d9488, #52525b);
     --glow-color: rgba(13, 148, 136, 0.18);
     --theme-text-accent: #2dd4bf;
+    --text-glow: 0 0 25px rgba(45, 212, 191, 0.35);
 }
 
 /* ==========================================
-   3. BACKGROUND & AMBIENT SETUP
+   3. BACKGROUND & AMBIENT AURORA PHYSICS
    ========================================== */
 body {
     font-family: var(--font-primary) !important;
     background-color: var(--bg-dark-obsidian) !important;
-    background-image: radial-gradient(at 0% 0%, var(--bg-deep-space) 0px, transparent 50%),
-                      radial-gradient(at 100% 100%, var(--bg-dark-obsidian) 0px, transparent 50%) !important;
+    background-image: radial-gradient(at 0% 0%, var(--bg-deep-space) 0px, transparent 55%),
+                      radial-gradient(at 100% 100%, var(--bg-dark-obsidian) 0px, transparent 55%) !important;
     color: var(--text-primary) !important;
     transition: background-color var(--transition-slow) !important;
     position: relative;
     z-index: 1;
 }
 
-/* Big soft radial neon spheres */
+/* Breathing Aurora Glow Elements */
 .ambient-glow {
     position: absolute;
-    width: 700px;
-    height: 700px;
+    width: 750px;
+    height: 750px;
     border-radius: 50%;
-    filter: blur(160px);
-    opacity: 0.38;
+    filter: blur(170px);
+    opacity: 0.36;
     z-index: -1;
     pointer-events: none;
-    transition: background var(--transition-slow), transform var(--transition-slow);
 }
+
 .glow-1 {
     top: -250px;
     left: -150px;
     background: var(--glow-color);
+    animation: float-aurora-1 22s infinite alternate ease-in-out;
 }
+
 .glow-2 {
     bottom: -150px;
     right: -150px;
     background: var(--accent-glow);
+    animation: float-aurora-2 28s infinite alternate ease-in-out;
+}
+
+/* Slowly morphing background aurora layers */
+@keyframes float-aurora-1 {
+    0% { transform: translate(0, 0) scale(1); border-radius: 50%; }
+    50% { transform: translate(80px, 60px) scale(1.15); border-radius: 45% 55% 50% 50%; }
+    100% { transform: translate(-40px, 90px) scale(0.95); border-radius: 60% 40% 55% 45%; }
+}
+@keyframes float-aurora-2 {
+    0% { transform: translate(0, 0) scale(1); border-radius: 50%; }
+    50% { transform: translate(-90px, -50px) scale(0.9); border-radius: 55% 45% 45% 55%; }
+    100% { transform: translate(50px, -90px) scale(1.15); border-radius: 40% 60% 50% 50%; }
 }
 
 /* Typography styles */
@@ -133,7 +156,7 @@ body {
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
 }
 
 a {
@@ -149,23 +172,24 @@ a:hover {
 
 /* Custom Scrollbars */
 ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
 }
 ::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.01);
 }
 ::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.12);
-    border-radius: 3px;
+    border-radius: var(--radius-sm);
     transition: background var(--transition-fast);
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.28);
+    background: var(--theme-text-accent);
+    box-shadow: 0 0 10px var(--theme-text-accent);
 }
 
 /* ==========================================
-   4. BOOTSTRAP CARD OVERRIDES (GLASSMORPHISM)
+   4. CARD OVERRIDES (GLASSMORPHISM & HIGHLIGHTS)
    ========================================== */
 .card {
     background: var(--card-glass-bg) !important;
@@ -173,7 +197,7 @@ a:hover {
     backdrop-filter: blur(28px) saturate(140%) !important;
     -webkit-backdrop-filter: blur(28px) saturate(140%) !important;
     border-radius: var(--radius-lg) !important;
-    box-shadow: 0 16px 48px -12px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.55) !important;
     transition: border-color var(--transition-normal), 
                 box-shadow var(--transition-normal), 
                 transform var(--transition-normal),
@@ -184,10 +208,10 @@ a:hover {
 }
 
 .card:hover {
-    border-color: var(--card-border-hover) !important;
-    box-shadow: 0 24px 64px -10px rgba(0, 0, 0, 0.65), 
-                0 0 35px -5px var(--glow-color) !important;
-    transform: translateY(-6px) scale(1.005) !important;
+    border-color: var(--theme-text-accent) !important; /* Glowing outline matching weather */
+    box-shadow: 0 25px 65px -8px rgba(0, 0, 0, 0.7), 
+                0 0 35px -6px var(--glow-color) !important;
+    transform: translateY(-8px) scale(1.008) !important;
 }
 
 /* Card flare hover effect */
@@ -227,9 +251,10 @@ a:hover {
                 width var(--transition-normal) !important;
 }
 .search-wrapper:focus-within {
-    border-color: var(--card-border-hover);
-    background: rgba(16, 12, 30, 0.7);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04), 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    border-color: var(--theme-text-accent);
+    background: rgba(14, 10, 24, 0.75);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04), 
+                0 0 20px -5px var(--glow-color);
 }
 
 .search-wrapper input::placeholder {
@@ -243,10 +268,10 @@ a:hover {
     top: calc(100% + 10px);
     left: 0;
     width: 100%;
-    background: rgba(13, 9, 23, 0.96) !important;
+    background: rgba(12, 8, 20, 0.96) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: var(--radius-md) !important;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55) !important;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.65) !important;
     max-height: 260px;
     overflow-y: auto;
     z-index: 100;
@@ -348,6 +373,7 @@ a:hover {
     background: linear-gradient(to right, #38bdf8, #f59e0b);
     border-radius: 4px;
     position: absolute;
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
 }
 
 /* ==========================================
@@ -365,15 +391,17 @@ a:hover {
 }
 
 /* ==========================================
-   9. BOOKMARKS SIDEBAR OVERRIDES
+   9. BOOKMARKS SIDEBAR DRAWER OVERRIDES
    ========================================== */
 .offcanvas {
-    background: rgba(13, 9, 23, 0.82) !important;
+    background: rgba(12, 8, 20, 0.84) !important;
     backdrop-filter: blur(35px) !important;
     -webkit-backdrop-filter: blur(35px) !important;
     border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
     box-shadow: -20px 0 60px rgba(0, 0, 0, 0.7) !important;
     width: 350px !important;
+    /* Spring slide-in animation */
+    transition: transform var(--transition-spring) !important;
 }
 
 .saved-city-card {
@@ -385,13 +413,35 @@ a:hover {
 }
 .saved-city-card:hover {
     background: rgba(255, 255, 255, 0.05) !important;
-    border-color: rgba(255, 255, 255, 0.1) !important;
+    border-color: var(--theme-text-accent) !important;
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.5), 
+                0 0 15px -5px var(--glow-color);
 }
 
 /* ==========================================
-   10. AMBIENT PARTICLES
+   10. TEXT GLOW SHADOWS HIGHLIGHTS
+   ========================================== */
+.display-3, .h1, .h2, h1, h2 {
+    text-shadow: var(--text-glow);
+    transition: text-shadow var(--transition-slow);
+}
+
+/* Upgraded button glows on hover */
+.btn-outline-secondary {
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    background: rgba(255, 255, 255, 0.02) !important;
+    transition: border-color 0.25s, background-color 0.25s, box-shadow 0.25s, transform 0.25s !important;
+}
+.btn-outline-secondary:hover {
+    border-color: var(--theme-text-accent) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    box-shadow: 0 0 15px -3px var(--glow-color);
+    transform: translateY(-2px);
+}
+
+/* ==========================================
+   11. AMBIENT PARTICLES
    ========================================== */
 .particle-container {
     position: fixed;
@@ -457,7 +507,7 @@ a:hover {
 }
 
 /* ==========================================
-   11. TOAST NOTIFICATIONS
+   12. TOAST NOTIFICATIONS
    ========================================== */
 .toast-container-custom {
     position: fixed;
@@ -472,7 +522,7 @@ a:hover {
 }
 
 .toast-custom {
-    background: rgba(15, 11, 28, 0.96) !important;
+    background: rgba(14, 10, 24, 0.96) !important;
     backdrop-filter: blur(16px);
     border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
     border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
@@ -487,7 +537,7 @@ a:hover {
 }
 
 /* ==========================================
-   12. MOBILE OVERRIDES & OVERFLOW PREVENTIONS
+   13. MOBILE OVERRIDES & OVERFLOW PREVENTIONS
    ========================================== */
 @media (max-width: 640px) {
     .search-wrapper {
