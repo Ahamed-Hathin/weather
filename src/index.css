@@ -1,184 +1,127 @@
 /* ==========================================================================
-   AeroSky Design System - Ultra-Premium Obsidian Cosmic Edition
-   Architected for high-end aesthetics, smooth transitions, and vibrant neon accents.
+   AeroSky CSS Override System - Minimalist Cosmic Edition
+   Bootstrap 5.3.3 handles all structural layouts, spacing, cards, and responsiveness.
+   This stylesheet handles only custom animations, gradients, and particle physics.
    ========================================================================== */
 
-/* ==========================================
-   1. DESIGN TOKENS & SYSTEM VARIABLES
-   ========================================== */
 :root {
-    /* Typographic hierarchy */
-    --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
-    --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
-    
-    /* Easing and transitions */
-    --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    --transition-normal: 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-    --transition-slow: 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-
-    /* Rounded boundaries */
-    --radius-sm: 8px;
-    --radius-md: 16px;
-    --radius-lg: 24px;
-    --radius-xl: 32px;
-
-    /* Base theme colors - Premium Cosmic Obsidian */
+    --transition-slow: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     --bg-dark-obsidian: #05040a;
     --bg-deep-space: #0c0919;
-    --card-glass: rgba(16, 12, 30, 0.45);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --card-border-hover: rgba(255, 255, 255, 0.22);
-    
-    /* Global typography colors */
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
-    --text-muted: #64748b;
-
-    /* Metric Icon Color Gradients */
-    --gradient-pink: linear-gradient(135deg, #ec4899, #f43f5e);
-    --gradient-blue: linear-gradient(135deg, #0ea5e9, #3b82f6);
-    --gradient-green: linear-gradient(135deg, #10b981, #059669);
-    --gradient-orange: linear-gradient(135deg, #f97316, #ea580c);
-    --gradient-purple: linear-gradient(135deg, #8b5cf6, #7c3aed);
-    --gradient-teal: linear-gradient(135deg, #14b8a6, #0d9488);
-
-    /* Shadows and Glows */
-    --shadow-premium: 0 16px 48px -12px rgba(0, 0, 0, 0.5);
-    --shadow-premium-hover: 0 24px 64px -10px rgba(0, 0, 0, 0.65);
 }
 
-/* ==========================================
-   WEATHER ACCENT SYSTEMS (DYNAMIC NEON ACCENTS)
-   ========================================== */
-.theme-clear-day {
-    --accent-glow: linear-gradient(135deg, #f59e0b, #ef4444);
-    --glow-color: rgba(245, 158, 11, 0.25);
-    --theme-text-accent: #f59e0b;
-}
-
-.theme-clear-night {
-    --accent-glow: linear-gradient(135deg, #7c3aed, #06b6d4);
-    --glow-color: rgba(124, 58, 237, 0.22);
-    --theme-text-accent: #a78bfa;
-}
-
-.theme-cloudy {
-    --accent-glow: linear-gradient(135deg, #475569, #94a3b8);
-    --glow-color: rgba(100, 116, 139, 0.18);
-    --theme-text-accent: #cbd5e1;
-}
-
-.theme-rainy {
-    --accent-glow: linear-gradient(135deg, #2563eb, #7c3aed);
-    --glow-color: rgba(37, 99, 235, 0.25);
-    --theme-text-accent: #60a5fa;
-}
-
-.theme-stormy {
-    --accent-glow: linear-gradient(135deg, #6d28d9, #fbbf24);
-    --glow-color: rgba(109, 40, 217, 0.28);
-    --theme-text-accent: #fcd34d;
-}
-
-.theme-snowy {
-    --accent-glow: linear-gradient(135deg, #0ea5e9, #f8fafc);
-    --glow-color: rgba(14, 165, 233, 0.2);
-    --theme-text-accent: #93c5fd;
-}
-
-.theme-foggy {
-    --accent-glow: linear-gradient(135deg, #0d9488, #52525b);
-    --glow-color: rgba(13, 148, 136, 0.18);
-    --theme-text-accent: #2dd4bf;
-}
-
-/* ==========================================
-   2. REBOOT & BASE LAYOUT
-   ========================================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* Base resets & fonts */
 body {
-    font-family: var(--font-primary);
     background-color: var(--bg-dark-obsidian);
     background-image: radial-gradient(at 0% 0%, var(--bg-deep-space) 0px, transparent 50%),
                       radial-gradient(at 100% 100%, var(--bg-dark-obsidian) 0px, transparent 50%);
-    color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
     position: relative;
+    transition: background-color var(--transition-slow);
 }
 
-/* Background Soft Ambient Light Spheres */
+/* Background soft ambient radial light bubbles */
 .ambient-glow {
     position: absolute;
-    width: 700px;
-    height: 700px;
+    width: 650px;
+    height: 650px;
     border-radius: 50%;
-    filter: blur(160px);
-    opacity: 0.35;
+    filter: blur(150px);
+    opacity: 0.3;
     z-index: -1;
     pointer-events: none;
-    transition: background var(--transition-slow), transform var(--transition-slow);
+    transition: background var(--transition-slow);
+}
+.glow-1 { top: -200px; left: -100px; background: var(--glow-color); }
+.glow-2 { bottom: -100px; right: -100px; background: var(--accent-glow); }
+
+/* Theme Colors definitions (Updates background glow colors dynamically) */
+.theme-clear-day { --accent-glow: linear-gradient(135deg, #f59e0b, #ef4444); --glow-color: rgba(245, 158, 11, 0.25); }
+.theme-clear-night { --accent-glow: linear-gradient(135deg, #7c3aed, #06b6d4); --glow-color: rgba(124, 58, 237, 0.22); }
+.theme-cloudy { --accent-glow: linear-gradient(135deg, #475569, #94a3b8); --glow-color: rgba(100, 116, 139, 0.18); }
+.theme-rainy { --accent-glow: linear-gradient(135deg, #2563eb, #7c3aed); --glow-color: rgba(37, 99, 235, 0.25); }
+.theme-stormy { --accent-glow: linear-gradient(135deg, #6d28d9, #fbbf24); --glow-color: rgba(109, 40, 217, 0.28); }
+.theme-snowy { --accent-glow: linear-gradient(135deg, #0ea5e9, #f8fafc); --glow-color: rgba(14, 165, 233, 0.2); }
+.theme-foggy { --accent-glow: linear-gradient(135deg, #0d9488, #52525b); --glow-color: rgba(13, 148, 136, 0.18); }
+
+/* Glassmorphism backdrop-blur helper */
+.backdrop-blur {
+    backdrop-filter: blur(28px) saturate(140%);
+    -webkit-backdrop-filter: blur(28px) saturate(140%);
 }
 
-.glow-1 {
-    top: -250px;
-    left: -150px;
-    background: var(--glow-color);
+/* Custom horizontal scroll for hourly forecast card */
+.hourly-scroll {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.5rem;
+}
+.hourly-item {
+    flex: 0 0 84px;
+    scroll-snap-align: start;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.hourly-item:hover {
+    transform: translateY(-4px);
+    background-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-.glow-2 {
-    bottom: -150px;
-    right: -150px;
-    background: var(--accent-glow);
+/* Weekly card hover transitions */
+.weekly-hover-card {
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+.weekly-hover-card:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    transform: translateX(4px);
 }
 
-/* Custom modern scrollbars */
-::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+/* Weather animated icons spins and bounces */
+.sunny .sun-rays {
+    animation: rotate-sun-rays 35s infinite linear;
+    transform-origin: 32px 32px;
 }
-::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.01);
-    border-radius: var(--radius-sm);
+@keyframes rotate-sun-rays { 100% { transform: rotate(360deg); } }
+
+.cloudy .cloud-main {
+    animation: sway-cloud-svg 6s infinite alternate ease-in-out;
 }
-::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: var(--radius-sm);
-    transition: background var(--transition-fast);
+@keyframes sway-cloud-svg { 0% { transform: translateX(-3px); } 100% { transform: translateX(3px); } }
+
+.rainy .drop {
+    animation: rain-drops-fall 1.1s infinite linear;
 }
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.28);
+.rainy .drop-1 { animation-delay: 0s; }
+.rainy .drop-2 { animation-delay: 0.35s; }
+.rainy .drop-3 { animation-delay: 0.7s; }
+@keyframes rain-drops-fall {
+    0% { transform: translateY(-12px); opacity: 0; }
+    50% { opacity: 0.9; }
+    100% { transform: translateY(14px); opacity: 0; }
 }
 
-/* Typography elements styling */
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: -0.02em;
+.snowy .snowflake-svg {
+    animation: snow-drift-fall 2.2s infinite linear;
+    transform-origin: center;
+}
+@keyframes snow-drift-fall {
+    0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(12px) rotate(270deg); opacity: 0; }
 }
 
-a {
-    color: var(--text-primary);
-    text-decoration: none;
-    font-weight: 500;
-    border-bottom: 1px dotted var(--text-secondary);
-    transition: color var(--transition-fast), border-color var(--transition-fast);
+.stormy .lightning {
+    animation: lightning-strike 2.5s infinite ease-in-out;
 }
-a:hover {
-    color: var(--theme-text-accent);
-    border-bottom-style: solid;
+@keyframes lightning-strike {
+    0%, 92%, 94%, 98%, 100% { opacity: 0.1; }
+    93%, 96% { opacity: 1; filter: drop-shadow(0 0 15px #fde047); }
 }
 
-/* ==========================================
-   3. BACKGROUND ENVIRONMENT PARTICLES
-   ========================================== */
+/* Background weather particle elements */
 .particle-container {
     position: fixed;
     top: 0;
@@ -212,10 +155,10 @@ a:hover {
     animation: fall-snow linear infinite;
 }
 @keyframes fall-snow {
-    0% { transform: translateY(-20px) translateX(0) rotate(0deg); opacity: 0; }
+    0% { transform: translateY(-20px) translateX(0); opacity: 0; }
     10% { opacity: 0.9; }
     90% { opacity: 0.9; }
-    100% { transform: translateY(110vh) translateX(70px) rotate(360deg); opacity: 0; }
+    100% { transform: translateY(110vh) translateX(70px); opacity: 0; }
 }
 
 .particle-star {
@@ -232,7 +175,7 @@ a:hover {
 
 .particle-cloud {
     position: absolute;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.03);
     border-radius: 50%;
     filter: blur(40px);
     animation: drift-cloud linear infinite;
@@ -242,1209 +185,22 @@ a:hover {
     100% { transform: translateX(calc(100vw + 250px)); }
 }
 
-/* ==========================================
-   4. PREMIUM GLASSMORPHISM SYSTEM
-   ========================================== */
-.glass-card {
-    background: var(--card-glass);
-    border: 1px solid var(--card-border);
-    backdrop-filter: blur(28px) saturate(140%);
-    -webkit-backdrop-filter: blur(28px) saturate(140%);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-premium);
-    transition: border-color var(--transition-normal), 
-                box-shadow var(--transition-normal), 
-                transform var(--transition-normal),
-                background-color var(--transition-normal);
-    position: relative;
-    overflow: hidden;
-}
-
-.glass-card:hover {
-    border-color: var(--card-border-hover);
-    box-shadow: var(--shadow-premium-hover);
-    transform: translateY(-6px) scale(1.005);
-}
-
-/* Shimmer flare border effect */
-.glass-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -150%;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.05), transparent);
-    transform: skewX(-20deg);
-    transition: 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-    pointer-events: none;
-    z-index: 1;
-}
-.glass-card:hover::before {
-    left: 150%;
-}
-
-/* ==========================================
-   5. CONTAINER & BRAND HEADER
-   ========================================== */
-.app-container {
-    max-width: 1240px;
-    margin: 0 auto;
-    padding: 32px 24px;
+/* Custom styling for floating notifications */
+.toast-container-custom {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 2050;
     display: flex;
     flex-direction: column;
-    gap: 32px;
-    position: relative;
-    z-index: 10;
-    min-height: 100vh;
-}
-
-.dashboard {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-}
-
-.app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-    position: relative;
-    z-index: 50;
-}
-
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-.brand h1 {
-    font-size: 32px;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    background: linear-gradient(to right, #ffffff 30%, var(--text-secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.brand-logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #38bdf8;
-    filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.45));
-    animation: logo-pulsing 4s infinite alternate ease-in-out;
-}
-@keyframes logo-pulsing {
-    0% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.3)); }
-    100% { transform: scale(1.08) rotate(5deg); filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.7)); }
-}
-
-.logo-svg {
-    stroke-dasharray: 80;
-    stroke-dashoffset: 0;
-}
-
-/* ==========================================
-   6. HEADER CONTROLS (SEARCH & ACTIONS)
-   ========================================== */
-.search-controls {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.search-wrapper {
-    position: relative;
-    width: 320px;
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-md);
-    padding: 0 16px;
-    height: 50px;
-    backdrop-filter: blur(12px);
-    transition: border-color var(--transition-fast), 
-                background-color var(--transition-fast), 
-                box-shadow var(--transition-fast),
-                width var(--transition-normal);
-    z-index: 60;
-}
-.search-wrapper:focus-within {
-    border-color: var(--card-border-hover);
-    background: rgba(16, 12, 30, 0.7);
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04), 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-    width: 350px;
-}
-
-.search-wrapper input {
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--text-primary);
-    font-family: var(--font-primary);
-    font-size: 14px;
-    font-weight: 500;
-    padding-left: 12px;
-}
-.search-wrapper input::placeholder {
-    color: var(--text-muted);
-}
-
-.search-btn, .clear-btn {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color var(--transition-fast), transform var(--transition-fast);
-}
-.search-btn:hover {
-    color: var(--text-primary);
-}
-.clear-btn {
-    color: var(--text-muted);
-    margin-left: auto;
-}
-.clear-btn:hover {
-    color: #ef4444;
-    transform: scale(1.15);
-}
-
-/* Suggestion dropdown lists */
-.autocomplete-list {
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    width: 100%;
-    background: rgba(13, 9, 23, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-md);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55);
-    max-height: 260px;
-    overflow-y: auto;
-    z-index: 100;
-    backdrop-filter: blur(20px);
-    padding: 6px;
-    animation: scale-drop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    transform-origin: top center;
-}
-@keyframes scale-drop {
-    0% { opacity: 0; transform: scaleY(0.9); }
-    100% { opacity: 1; transform: scaleY(1); }
-}
-
-.autocomplete-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-    cursor: pointer;
-    border-radius: var(--radius-sm);
-    transition: background var(--transition-fast), transform var(--transition-fast);
-}
-.autocomplete-item:hover {
-    background: rgba(255, 255, 255, 0.05);
-    transform: translateX(4px);
-}
-.autocomplete-item-main {
-    font-weight: 600;
-    color: var(--text-primary);
-    font-size: 13.5px;
-}
-.autocomplete-item-sub {
-    color: var(--text-muted);
-    font-size: 11.5px;
-    margin-left: auto;
-}
-
-/* Action controls */
-.btn-action {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-md);
-    color: var(--text-primary);
-    font-family: var(--font-primary);
-    font-size: 14px;
-    font-weight: 600;
-    padding: 0 20px;
-    height: 50px;
-    display: flex;
-    align-items: center;
     gap: 10px;
-    cursor: pointer;
-    backdrop-filter: blur(8px);
-    transition: background var(--transition-fast), 
-                border-color var(--transition-fast), 
-                transform var(--transition-fast),
-                box-shadow var(--transition-fast);
-}
-.btn-action:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--card-border-hover);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.5);
-}
-.btn-action:active {
-    transform: translateY(-1px);
-}
-
-.gps-svg {
-    transition: transform var(--transition-normal);
-}
-.btn-action:hover .gps-svg {
-    transform: rotate(90deg) scale(1.1);
-}
-.loading .gps-svg {
-    animation: rotate-spin 1.2s infinite linear !important;
-}
-@keyframes rotate-spin {
-    100% { transform: rotate(360deg); }
-}
-
-.btn-icon {
-    background: transparent;
-    border: none;
-    color: var(--text-secondary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color var(--transition-fast), transform var(--transition-fast);
-}
-.btn-icon:hover {
-    color: var(--text-primary);
-    transform: scale(1.12);
-}
-
-/* ==========================================
-   7. DASHBOARD GRID LAYOUT
-   ========================================== */
-.dashboard-grid {
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 32px;
-}
-
-.grid-left, .grid-right {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    min-width: 0;
-}
-
-/* ==========================================
-   8. HERO WEATHER CARD (LEFT COLUMN)
-   ========================================== */
-.hero-card {
-    padding: 36px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 290px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.005) 100%), var(--card-glass);
-}
-
-.hero-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-
-.location-name-container {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-.location-name-container h2 {
-    font-size: 42px;
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1.1;
-}
-
-.btn-pin {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color var(--transition-fast), transform var(--transition-fast), filter var(--transition-fast);
-}
-.btn-pin:hover {
-    color: #fbbf24;
-    transform: scale(1.2);
-}
-.btn-pin.pinned {
-    color: #fbbf24 !important;
-    fill: #fbbf24 !important;
-    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.6));
-}
-
-.current-date {
-    font-size: 14.5px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin-top: 6px;
-}
-.local-time {
-    font-size: 12.5px;
-    font-weight: 600;
-    color: var(--text-muted);
-    margin-top: 3px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-}
-
-/* Large SVGs icons glowing effects */
-.weather-icon-large {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4))
-            drop-shadow(0 0 40px var(--glow-color));
-}
-.weather-svg {
-    transform-origin: center;
-}
-
-/* Weather animated classes */
-.sunny .sun-rays {
-    animation: spin-sun-rays 35s infinite linear;
-    transform-origin: 32px 32px;
-}
-@keyframes spin-sun-rays {
-    100% { transform: rotate(360deg); }
-}
-
-.cloudy .cloud-main {
-    animation: sway-cloud-svg 6s infinite alternate ease-in-out;
-}
-@keyframes sway-cloud-svg {
-    0% { transform: translateX(-3px); }
-    100% { transform: translateX(3px); }
-}
-
-.rainy .drop {
-    animation: rain-drops-fall 1.1s infinite linear;
-}
-.rainy .drop-1 { animation-delay: 0s; }
-.rainy .drop-2 { animation-delay: 0.35s; }
-.rainy .drop-3 { animation-delay: 0.7s; }
-@keyframes rain-drops-fall {
-    0% { transform: translateY(-12px); opacity: 0; }
-    50% { opacity: 0.9; }
-    100% { transform: translateY(14px); opacity: 0; }
-}
-
-.snowy .snowflake-svg {
-    animation: snow-drift-fall 2.2s infinite linear;
-    transform-origin: center;
-}
-@keyframes snow-drift-fall {
-    0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
-    50% { opacity: 1; }
-    100% { transform: translateY(12px) rotate(270deg); opacity: 0; }
-}
-
-.stormy .lightning {
-    animation: lightning-strike 2.5s infinite ease-in-out;
-}
-@keyframes lightning-strike {
-    0%, 92%, 94%, 98%, 100% { opacity: 0.1; }
-    93%, 96% { opacity: 1; filter: drop-shadow(0 0 15px #fde047); }
-}
-
-.hero-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-
-.temperature-main {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 88px;
-    line-height: 0.9;
-    letter-spacing: -0.04em;
-    display: flex;
-    text-shadow: 0 0 40px rgba(255, 255, 255, 0.08);
-}
-.temp-unit {
-    font-size: 36px;
-    font-weight: 600;
-    margin-top: 10px;
-    color: var(--text-secondary);
-}
-
-.weather-condition-meta {
-    text-align: right;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-.weather-condition-meta h3 {
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-}
-.temp-range {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-secondary);
-}
-.temp-divider {
-    color: var(--text-muted);
-    margin: 0 6px;
-    opacity: 0.5;
-}
-
-/* ==========================================
-   9. METRIC DETAILS GRID (6 CARDS)
-   ========================================== */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-}
-
-.stat-card {
-    padding: 24px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    height: 120px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.015) 0%, rgba(255,255,255,0.002) 100%), var(--card-glass);
-}
-
-.stat-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    background: rgba(255, 255, 255, 0.02);
-    transition: transform var(--transition-normal);
-}
-.stat-card:hover .stat-icon {
-    transform: scale(1.1) rotate(3deg);
-}
-
-.stat-icon.pink { background: var(--gradient-pink); color: #fff; box-shadow: 0 8px 24px -8px #f43f5e; }
-.stat-icon.blue { background: var(--gradient-blue); color: #fff; box-shadow: 0 8px 24px -8px #0ea5e9; }
-.stat-icon.green { background: var(--gradient-green); color: #fff; box-shadow: 0 8px 24px -8px #10b981; }
-.stat-icon.orange { background: var(--gradient-orange); color: #fff; box-shadow: 0 8px 24px -8px #f97316; }
-.stat-icon.purple { background: var(--gradient-purple); color: #fff; box-shadow: 0 8px 24px -8px #8b5cf6; }
-.stat-icon.teal { background: var(--gradient-teal); color: #fff; box-shadow: 0 8px 24px -8px #14b8a6; }
-
-.wind-spinner {
-    animation: spin-wind 7s infinite linear;
-    transform-origin: center;
-}
-@keyframes spin-wind {
-    100% { transform: rotate(360deg); }
-}
-
-.stat-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-}
-
-.stat-label {
-    font-size: 11.5px;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-weight: 700;
-}
-.stat-value {
-    font-size: 22px;
-    font-weight: 700;
-    margin: 3px 0;
-    color: var(--text-primary);
-    font-family: var(--font-display);
-}
-.stat-desc {
-    font-size: 11.5px;
-    color: var(--text-muted);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.stat-progress-bar {
-    width: 100%;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 3px;
-    margin: 6px 0 4px;
-    overflow: hidden;
-}
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(to right, #38bdf8, #0ea5e9);
-    border-radius: 3px;
-    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.progress-fill.warning {
-    background: linear-gradient(to right, #fb923c, #f97316);
-}
-
-/* ==========================================
-   10. SECTION CARDS & MODULES (RIGHT COLUMN)
-   ========================================== */
-.section-card {
-    padding: 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-}
-.section-card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.section-card-header h3 {
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-}
-.header-hint {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    background: rgba(255, 255, 255, 0.04);
-    padding: 4px 12px;
-    border-radius: var(--radius-sm);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-/* Hourly scrolling list */
-.hourly-forecast-container {
-    display: flex;
-    gap: 14px;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    scroll-snap-type: x mandatory;
-}
-
-.hourly-entry {
-    flex: 0 0 84px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    padding: 18px 8px;
-    border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.012);
-    border: 1px solid rgba(255, 255, 255, 0.02);
-    transition: background var(--transition-fast), 
-                border-color var(--transition-fast), 
-                transform var(--transition-fast);
-    scroll-snap-align: start;
-}
-.hourly-entry:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.12);
-    transform: translateY(-5px);
-}
-.hourly-entry.active-hour {
-    background: rgba(255, 255, 255, 0.08) !important;
-    border-color: rgba(255, 255, 255, 0.22) !important;
-    box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.4);
-}
-.hourly-time {
-    font-size: 12.5px;
-    font-weight: 600;
-    color: var(--text-secondary);
-}
-.hourly-entry.active-hour .hourly-time {
-    color: var(--theme-text-accent);
-}
-.hourly-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 38px;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
-}
-.hourly-temp {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 16px;
-}
-
-.hourly-loading, .weekly-loading {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    padding: 48px 0;
-    color: var(--text-secondary);
-    font-size: 14px;
-    font-weight: 500;
-}
-.spinner {
-    width: 36px;
-    height: 36px;
-    border: 3.5px solid rgba(255,255,255,0.06);
-    border-top: 3.5px solid #38bdf8;
-    border-radius: 50%;
-    animation: rotate-spin 1s infinite linear;
-}
-
-/* ==========================================
-   11. 7-DAY WEEKLY OUTLOOK accordion cards
-   ========================================== */
-.weekly-forecast-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.weekly-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 24px;
-    background: rgba(255, 255, 255, 0.012);
-    border: 1px solid rgba(255, 255, 255, 0.02);
-    border-radius: var(--radius-md);
-    transition: background var(--transition-fast), 
-                border-color var(--transition-fast), 
-                transform var(--transition-fast);
-    cursor: pointer;
-}
-.weekly-card:hover {
-    background: rgba(255, 255, 255, 0.045);
-    border-color: rgba(255, 255, 255, 0.09);
-    transform: translateX(4px);
-}
-.weekly-card.expanded {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    background: rgba(255, 255, 255, 0.035);
-    border-color: rgba(255, 255, 255, 0.08);
-}
-
-.weekly-day {
-    flex: 0 0 100px;
-    font-size: 15px;
-    font-weight: 600;
-}
-.weekly-status-group {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    flex: 1;
-}
-.weekly-status-icon {
-    display: flex;
-    align-items: center;
-    height: 32px;
-    width: 32px;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
-}
-.weekly-desc {
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--text-secondary);
-}
-
-/* Sleek sliding scale temperature indicators */
-.weekly-temp-bar-container {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    justify-content: flex-end;
-    flex-shrink: 0;
-}
-.weekly-temp-low {
-    font-size: 13.5px;
-    color: var(--text-muted);
-    width: 28px;
-    text-align: right;
-    font-weight: 500;
-}
-.weekly-temp-high {
-    font-size: 13.5px;
-    font-weight: 700;
-    width: 28px;
-    text-align: left;
-    color: var(--text-primary);
-}
-.weekly-bar {
-    width: 90px;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.06);
-    border-radius: 4px;
-    position: relative;
-    overflow: hidden;
-}
-.weekly-bar-fill {
-    height: 100%;
-    background: linear-gradient(to right, #38bdf8, #f59e0b);
-    border-radius: 4px;
-    position: absolute;
-}
-
-/* Accordion expand grid styling */
-.weekly-card-expanded {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    padding: 18px 24px;
-    background: rgba(0, 0, 0, 0.22);
-    border-bottom-left-radius: var(--radius-md);
-    border-bottom-right-radius: var(--radius-md);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-top: none;
-    font-size: 12px;
-    color: var(--text-secondary);
-    animation: animate-slide-down 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-@keyframes animate-slide-down {
-    0% { opacity: 0; transform: translateY(-8px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-.weekly-expanded-item {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
-.weekly-expanded-label {
-    text-transform: uppercase;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--text-muted);
-    letter-spacing: 0.05em;
-}
-.weekly-expanded-value {
-    color: var(--text-primary);
-    font-weight: 600;
-    font-size: 13px;
-}
-
-/* ==========================================
-   12. HEALTH GUIDE & AQI GAUGE
-   ========================================== */
-.health-activities-card .health-content {
-    display: flex;
-    gap: 28px;
-    align-items: center;
-}
-
-.aqi-display {
-    flex: 0 0 130px;
-    display: flex;
-    justify-content: center;
-}
-.aqi-dial {
-    position: relative;
-    width: 120px;
-    height: 120px;
-}
-.circular-chart {
-    width: 100%;
-    height: 100%;
-}
-.circle-bg {
-    stroke: rgba(255, 255, 255, 0.04);
-}
-.circle {
-    stroke-linecap: round;
-    transition: stroke-dasharray 1.2s cubic-bezier(0.16, 1, 0.3, 1), stroke var(--transition-normal);
-}
-
-.aqi-info {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-.aqi-title {
-    font-size: 10.5px;
-    color: var(--text-muted);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-.aqi-number {
-    font-family: var(--font-display);
-    font-size: 36px;
-    font-weight: 800;
-    line-height: 1;
-    margin: 1px 0;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
-}
-.aqi-badge {
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2.5px 8px;
-    border-radius: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-}
-.aqi-badge.success { background: rgba(16, 185, 129, 0.15); color: #34d399; }
-.aqi-badge.warning { background: rgba(249, 115, 22, 0.15); color: #fb923c; }
-.aqi-badge.danger { background: rgba(239, 68, 68, 0.15); color: #f87171; }
-
-/* Health guideline lists */
-.activities-panel {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-.activity-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-}
-.activity-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: var(--radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.05);
-}
-.activity-icon.green-glow { color: #34d399; filter: drop-shadow(0 0 6px rgba(52, 211, 153, 0.3)); }
-.activity-icon.blue-glow { color: #38bdf8; filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.3)); }
-.activity-icon.orange-glow { color: #fb923c; filter: drop-shadow(0 0 6px rgba(251, 146, 60, 0.3)); }
-
-.activity-text h5 {
-    font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 2px;
-    color: var(--text-primary);
-}
-.activity-text p {
-    font-size: 12px;
-    color: var(--text-secondary);
-    line-height: 1.45;
-}
-
-/* ==========================================
-   13. BOOKMARKS SIDEBAR DRAWER (GLASS DRAWER)
-   ========================================== */
-.sidebar {
-    position: fixed;
-    top: 0;
-    right: -370px;
-    width: 350px;
-    height: 100vh;
-    background: rgba(13, 9, 23, 0.82);
-    backdrop-filter: blur(35px);
-    -webkit-backdrop-filter: blur(35px);
-    border-left: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.7);
-    z-index: 1000;
-    padding: 36px 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-    transition: right 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.sidebar.active {
-    right: 0;
-}
-
-.sidebar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.sidebar-header h3 {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-
-.saved-locations-list {
-    flex: 1;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding-right: 6px;
-}
-
-.sidebar-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    gap: 18px;
-    padding: 80px 10px;
-    color: var(--text-muted);
-    font-size: 13px;
-    line-height: 1.5;
-}
-.sidebar-placeholder svg {
-    color: var(--text-muted);
-    opacity: 0.4;
-}
-.sidebar-placeholder .bounce {
-    animation: float-placeholder 2s infinite alternate ease-in-out;
-}
-@keyframes float-placeholder {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-10px); }
-}
-
-.saved-city-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 20px;
-    background: rgba(255, 255, 255, 0.015);
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: background var(--transition-fast), 
-                border-color var(--transition-fast), 
-                transform var(--transition-fast),
-                box-shadow var(--transition-fast);
-}
-.saved-city-card:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.5);
-}
-.saved-city-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-.saved-city-name {
-    font-weight: 700;
-    font-size: 16px;
-    color: var(--text-primary);
-}
-.saved-city-meta {
-    font-size: 12px;
-    color: var(--text-secondary);
-}
-.saved-city-weather {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-.saved-city-temp {
-    font-family: var(--font-display);
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--text-primary);
-}
-.btn-delete-saved {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    padding: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-sm);
-    transition: color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
-}
-.btn-delete-saved:hover {
-    color: #ef4444;
-    background: rgba(239, 68, 68, 0.08);
-    transform: scale(1.1);
-}
-
-/* ==========================================
-   14. FLOATING TOAST ALERTS SYSTEM
-   ========================================== */
-.notification-center {
-    position: fixed;
-    bottom: 28px;
-    left: 28px;
-    z-index: 2000;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
     max-width: 350px;
-    width: calc(100vw - 56px);
+    width: calc(100vw - 48px);
 }
-
-.toast {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 16px 20px;
-    background: rgba(15, 11, 28, 0.95);
-    backdrop-filter: blur(16px);
-    border-radius: var(--radius-md);
-    border-left: 4px solid #38bdf8;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
-    color: var(--text-primary);
-    font-size: 13.5px;
-    font-weight: 600;
-    cursor: pointer;
+.toast-custom {
     animation: scale-up-toast 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-.toast.toast-success { border-left-color: #10b981; }
-.toast.toast-error { border-left-color: #ef4444; }
-.toast.toast-warning { border-left-color: #f59e0b; }
-
 @keyframes scale-up-toast {
     0% { transform: translateY(30px) scale(0.92); opacity: 0; }
     100% { transform: translateY(0) scale(1); opacity: 1; }
-}
-.toast-out {
-    animation: fade-down-toast 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-@keyframes fade-down-toast {
-    0% { transform: scale(1); opacity: 1; height: auto; margin-bottom: 12px; }
-    100% { transform: scale(0.85); opacity: 0; height: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0; overflow: hidden; }
-}
-
-/* ==========================================
-   15. GLOBAL DASHBOARD FOOTER
-   ========================================== */
-.app-footer {
-    text-align: center;
-    padding: 32px 0 12px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-muted);
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
-}
-.app-footer a {
-    color: var(--text-secondary);
-}
-.app-footer a:hover {
-    color: var(--text-primary);
-}
-
-/* ==========================================
-   16. MEDIA INQUIRIES & RESPONSIVENESS
-   ========================================== */
-@media (max-width: 1024px) {
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-        gap: 28px;
-    }
-    .app-container {
-        padding: 24px 16px;
-        gap: 24px;
-    }
-}
-
-@media (max-width: 640px) {
-    .app-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-    }
-    .search-controls {
-        width: 100%;
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-    .search-wrapper {
-        width: 100%;
-        max-width: none;
-    }
-    .search-wrapper:focus-within {
-        width: 100%;
-    }
-    .btn-action {
-        flex: 1;
-        justify-content: center;
-        font-size: 13px;
-        padding: 0 14px;
-        height: 48px;
-    }
-    .hero-card {
-        padding: 28px;
-        height: auto;
-        gap: 28px;
-    }
-    .location-name-container h2 {
-        font-size: 32px;
-    }
-    .temperature-main {
-        font-size: 68px;
-    }
-    .stats-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-    .stat-card {
-        height: 100px;
-        padding: 18px;
-    }
-    .health-activities-card .health-content {
-        flex-direction: column;
-        gap: 24px;
-    }
-    .aqi-display {
-        flex: auto;
-        width: 100%;
-    }
-    .sidebar {
-        width: 100%;
-        right: -100%;
-        padding: 28px 20px;
-    }
-    .weekly-card {
-        padding: 14px 16px;
-    }
-    .weekly-day {
-        flex: 0 0 80px;
-        font-size: 14px;
-    }
-    .weekly-bar {
-        width: 60px;
-    }
-    .weekly-desc {
-        font-size: 12px;
-    }
-    .weekly-card-expanded {
-        padding: 14px 16px;
-        gap: 12px;
-    }
-
-    @media (max-width: 480px) {
-        .weekly-desc {
-            display: none;
-        }
-        .weekly-bar {
-            width: 50px;
-        }
-        .weekly-day {
-            flex: 0 0 70px;
-        }
-    }
 }
