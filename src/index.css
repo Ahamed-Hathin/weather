@@ -1,127 +1,398 @@
 /* ==========================================================================
-   AeroSky CSS Override System - Minimalist Cosmic Edition
-   Bootstrap 5.3.3 handles all structural layouts, spacing, cards, and responsiveness.
-   This stylesheet handles only custom animations, gradients, and particle physics.
+   AeroSky Custom Style Overrides - Premium Obsidian Cosmic Edition
+   Designed to layer on top of Bootstrap 5.3.3, upgrading structural layouts 
+   with stunning glassmorphism, neon highlights, and dynamic atmospheric glows.
    ========================================================================== */
 
+/* ==========================================
+   1. DESIGN TOKENS & SYSTEM VARIABLES
+   ========================================== */
 :root {
-    --transition-slow: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Font families */
+    --font-primary: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
+    
+    /* Animation easings */
+    --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-normal: 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-slow: 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Card boundaries */
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
+
+    /* Base Obsidian colors */
     --bg-dark-obsidian: #05040a;
     --bg-deep-space: #0c0919;
+    --card-glass-bg: rgba(15, 11, 28, 0.45);
+    --card-border-color: rgba(255, 255, 255, 0.08);
+    --card-border-hover: rgba(255, 255, 255, 0.22);
+    
+    /* Typography colors */
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+
+    /* Curated neon color gradients */
+    --gradient-pink: linear-gradient(135deg, #ec4899, #f43f5e);
+    --gradient-blue: linear-gradient(135deg, #0ea5e9, #3b82f6);
+    --gradient-green: linear-gradient(135deg, #10b981, #059669);
+    --gradient-orange: linear-gradient(135deg, #f97316, #ea580c);
+    --gradient-purple: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    --gradient-teal: linear-gradient(135deg, #14b8a6, #0d9488);
 }
 
-/* Base resets & fonts */
+/* ==========================================
+   2. DYNAMIC WEATHER THEMES (ACCENTS & GLOWS)
+   ========================================== */
+.theme-clear-day {
+    --accent-glow: linear-gradient(135deg, #f59e0b, #ef4444);
+    --glow-color: rgba(245, 158, 11, 0.25);
+    --theme-text-accent: #f59e0b;
+}
+
+.theme-clear-night {
+    --accent-glow: linear-gradient(135deg, #7c3aed, #06b6d4);
+    --glow-color: rgba(124, 58, 237, 0.22);
+    --theme-text-accent: #a78bfa;
+}
+
+.theme-cloudy {
+    --accent-glow: linear-gradient(135deg, #475569, #94a3b8);
+    --glow-color: rgba(100, 116, 139, 0.18);
+    --theme-text-accent: #cbd5e1;
+}
+
+.theme-rainy {
+    --accent-glow: linear-gradient(135deg, #2563eb, #7c3aed);
+    --glow-color: rgba(37, 99, 235, 0.25);
+    --theme-text-accent: #60a5fa;
+}
+
+.theme-stormy {
+    --accent-glow: linear-gradient(135deg, #6d28d9, #fbbf24);
+    --glow-color: rgba(109, 40, 217, 0.28);
+    --theme-text-accent: #fcd34d;
+}
+
+.theme-snowy {
+    --accent-glow: linear-gradient(135deg, #0ea5e9, #f8fafc);
+    --glow-color: rgba(14, 165, 233, 0.2);
+    --theme-text-accent: #93c5fd;
+}
+
+.theme-foggy {
+    --accent-glow: linear-gradient(135deg, #0d9488, #52525b);
+    --glow-color: rgba(13, 148, 136, 0.18);
+    --theme-text-accent: #2dd4bf;
+}
+
+/* ==========================================
+   3. BACKGROUND & AMBIENT SETUP
+   ========================================== */
 body {
-    background-color: var(--bg-dark-obsidian);
+    font-family: var(--font-primary) !important;
+    background-color: var(--bg-dark-obsidian) !important;
     background-image: radial-gradient(at 0% 0%, var(--bg-deep-space) 0px, transparent 50%),
-                      radial-gradient(at 100% 100%, var(--bg-dark-obsidian) 0px, transparent 50%);
-    min-height: 100vh;
-    overflow-x: hidden;
+                      radial-gradient(at 100% 100%, var(--bg-dark-obsidian) 0px, transparent 50%) !important;
+    color: var(--text-primary) !important;
+    transition: background-color var(--transition-slow) !important;
     position: relative;
-    transition: background-color var(--transition-slow);
+    z-index: 1;
 }
 
-/* Background soft ambient radial light bubbles */
+/* Big soft radial neon spheres */
 .ambient-glow {
     position: absolute;
-    width: 650px;
-    height: 650px;
+    width: 700px;
+    height: 700px;
     border-radius: 50%;
-    filter: blur(150px);
-    opacity: 0.3;
+    filter: blur(160px);
+    opacity: 0.38;
     z-index: -1;
     pointer-events: none;
-    transition: background var(--transition-slow);
+    transition: background var(--transition-slow), transform var(--transition-slow);
 }
-.glow-1 { top: -200px; left: -100px; background: var(--glow-color); }
-.glow-2 { bottom: -100px; right: -100px; background: var(--accent-glow); }
-
-/* Theme Colors definitions (Updates background glow colors dynamically) */
-.theme-clear-day { --accent-glow: linear-gradient(135deg, #f59e0b, #ef4444); --glow-color: rgba(245, 158, 11, 0.25); }
-.theme-clear-night { --accent-glow: linear-gradient(135deg, #7c3aed, #06b6d4); --glow-color: rgba(124, 58, 237, 0.22); }
-.theme-cloudy { --accent-glow: linear-gradient(135deg, #475569, #94a3b8); --glow-color: rgba(100, 116, 139, 0.18); }
-.theme-rainy { --accent-glow: linear-gradient(135deg, #2563eb, #7c3aed); --glow-color: rgba(37, 99, 235, 0.25); }
-.theme-stormy { --accent-glow: linear-gradient(135deg, #6d28d9, #fbbf24); --glow-color: rgba(109, 40, 217, 0.28); }
-.theme-snowy { --accent-glow: linear-gradient(135deg, #0ea5e9, #f8fafc); --glow-color: rgba(14, 165, 233, 0.2); }
-.theme-foggy { --accent-glow: linear-gradient(135deg, #0d9488, #52525b); --glow-color: rgba(13, 148, 136, 0.18); }
-
-/* Glassmorphism backdrop-blur helper */
-.backdrop-blur {
-    backdrop-filter: blur(28px) saturate(140%);
-    -webkit-backdrop-filter: blur(28px) saturate(140%);
+.glow-1 {
+    top: -250px;
+    left: -150px;
+    background: var(--glow-color);
+}
+.glow-2 {
+    bottom: -150px;
+    right: -150px;
+    background: var(--accent-glow);
 }
 
-/* Custom horizontal scroll for hourly forecast card */
+/* Typography styles */
+.font-display {
+    font-family: var(--font-display) !important;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+a {
+    color: var(--text-primary) !important;
+    text-decoration: none !important;
+    border-bottom: 1px dotted var(--text-secondary);
+    transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+a:hover {
+    color: var(--theme-text-accent) !important;
+    border-bottom-style: solid;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.01);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 3px;
+    transition: background var(--transition-fast);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+/* ==========================================
+   4. BOOTSTRAP CARD OVERRIDES (GLASSMORPHISM)
+   ========================================== */
+.card {
+    background: var(--card-glass-bg) !important;
+    border: 1px solid var(--card-border-color) !important;
+    backdrop-filter: blur(28px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(140%) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: 0 16px 48px -12px rgba(0, 0, 0, 0.5) !important;
+    transition: border-color var(--transition-normal), 
+                box-shadow var(--transition-normal), 
+                transform var(--transition-normal),
+                background-color var(--transition-normal) !important;
+    position: relative;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.card:hover {
+    border-color: var(--card-border-hover) !important;
+    box-shadow: 0 24px 64px -10px rgba(0, 0, 0, 0.65), 
+                0 0 35px -5px var(--glow-color) !important;
+    transform: translateY(-6px) scale(1.005) !important;
+}
+
+/* Card flare hover effect */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transform: skewX(-20deg);
+    transition: 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    z-index: 1;
+}
+.card:hover::before {
+    left: 150%;
+}
+
+/* ==========================================
+   5. HEADER & SLEEK SEARCH OVERRIDES
+   ========================================== */
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-md);
+    padding: 0 16px;
+    height: 50px;
+    backdrop-filter: blur(12px);
+    transition: border-color var(--transition-fast), 
+                background-color var(--transition-fast), 
+                box-shadow var(--transition-fast),
+                width var(--transition-normal) !important;
+}
+.search-wrapper:focus-within {
+    border-color: var(--card-border-hover);
+    background: rgba(16, 12, 30, 0.7);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04), 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.search-wrapper input::placeholder {
+    color: var(--text-muted) !important;
+    font-weight: 500;
+}
+
+/* Autocomplete suggestions dropdown list */
+.autocomplete-list {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    width: 100%;
+    background: rgba(13, 9, 23, 0.96) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55) !important;
+    max-height: 260px;
+    overflow-y: auto;
+    z-index: 100;
+    backdrop-filter: blur(25px);
+    padding: 6px;
+    animation: scale-drop-anim 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform-origin: top center;
+}
+@keyframes scale-drop-anim {
+    0% { opacity: 0; transform: scaleY(0.9); }
+    100% { opacity: 1; transform: scaleY(1); }
+}
+
+.autocomplete-item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 14px !important;
+    cursor: pointer;
+    border-radius: var(--radius-sm) !important;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+}
+.autocomplete-item:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    transform: translateX(4px);
+}
+
+/* GPS Rotation animation when loading */
+.gps-svg {
+    transition: transform var(--transition-normal);
+}
+.btn:hover .gps-svg {
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* ==========================================
+   6. METRIC GRID ACCENT DETAILS
+   ========================================== */
+.stat-icon.text-danger { background: var(--gradient-pink) !important; color: #fff !important; box-shadow: 0 6px 20px -8px #f43f5e; }
+.stat-icon.text-primary { background: var(--gradient-blue) !important; color: #fff !important; box-shadow: 0 6px 20px -8px #3b82f6; }
+.stat-icon.text-success { background: var(--gradient-green) !important; color: #fff !important; box-shadow: 0 6px 20px -8px #10b981; }
+.stat-icon.text-warning { background: var(--gradient-orange) !important; color: #fff !important; box-shadow: 0 6px 20px -8px #f97316; }
+.stat-icon.text-info { background: var(--gradient-purple) !important; color: #fff !important; box-shadow: 0 6px 20px -8px #8b5cf6; }
+.stat-icon.text-teal { background: var(--gradient-teal) !important; color: #fff !important; box-shadow: 0 6px 20px -8px #14b8a6; }
+
+.wind-spinner {
+    animation: rotate-wind 7s infinite linear;
+    transform-origin: center;
+}
+@keyframes rotate-wind { 100% { transform: rotate(360deg); } }
+
+/* ==========================================
+   7. HORIZONTAL & VERTICAL FORECAST SCROLLS
+   ========================================== */
 .hourly-scroll {
     display: flex;
-    gap: 1rem;
+    gap: 12px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    padding-bottom: 0.5rem;
+    padding-bottom: 8px;
 }
 .hourly-item {
     flex: 0 0 84px;
     scroll-snap-align: start;
-    transition: transform 0.2s ease, background-color 0.2s ease;
+    background: rgba(255, 255, 255, 0.015) !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    transition: background var(--transition-fast), 
+                border-color var(--transition-fast), 
+                transform var(--transition-fast) !important;
 }
 .hourly-item:hover {
-    transform: translateY(-4px);
-    background-color: rgba(255, 255, 255, 0.08) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    transform: translateY(-5px);
 }
 
-/* Weekly card hover transitions */
 .weekly-hover-card {
-    transition: background-color 0.2s ease, transform 0.2s ease;
-    cursor: pointer;
+    transition: background var(--transition-fast), 
+                border-color var(--transition-fast), 
+                transform var(--transition-fast) !important;
+    border: 1px solid rgba(255, 255, 255, 0.02) !important;
 }
 .weekly-hover-card:hover {
-    background-color: rgba(255, 255, 255, 0.08) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
     transform: translateX(4px);
 }
 
-/* Weather animated icons spins and bounces */
-.sunny .sun-rays {
-    animation: rotate-sun-rays 35s infinite linear;
-    transform-origin: 32px 32px;
+/* Sliding indicator temperature bars */
+.weekly-bar {
+    width: 90px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
 }
-@keyframes rotate-sun-rays { 100% { transform: rotate(360deg); } }
-
-.cloudy .cloud-main {
-    animation: sway-cloud-svg 6s infinite alternate ease-in-out;
-}
-@keyframes sway-cloud-svg { 0% { transform: translateX(-3px); } 100% { transform: translateX(3px); } }
-
-.rainy .drop {
-    animation: rain-drops-fall 1.1s infinite linear;
-}
-.rainy .drop-1 { animation-delay: 0s; }
-.rainy .drop-2 { animation-delay: 0.35s; }
-.rainy .drop-3 { animation-delay: 0.7s; }
-@keyframes rain-drops-fall {
-    0% { transform: translateY(-12px); opacity: 0; }
-    50% { opacity: 0.9; }
-    100% { transform: translateY(14px); opacity: 0; }
+.weekly-bar-fill {
+    height: 100%;
+    background: linear-gradient(to right, #38bdf8, #f59e0b);
+    border-radius: 4px;
+    position: absolute;
 }
 
-.snowy .snowflake-svg {
-    animation: snow-drift-fall 2.2s infinite linear;
-    transform-origin: center;
+/* ==========================================
+   8. HEALTH GUIDE AQI GAUGE
+   ========================================== */
+.aqi-dial {
+    position: relative;
 }
-@keyframes snow-drift-fall {
-    0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
-    50% { opacity: 1; }
-    100% { transform: translateY(12px) rotate(270deg); opacity: 0; }
+.circle-bg {
+    stroke: rgba(255, 255, 255, 0.04);
 }
-
-.stormy .lightning {
-    animation: lightning-strike 2.5s infinite ease-in-out;
-}
-@keyframes lightning-strike {
-    0%, 92%, 94%, 98%, 100% { opacity: 0.1; }
-    93%, 96% { opacity: 1; filter: drop-shadow(0 0 15px #fde047); }
+.circle {
+    stroke-linecap: round;
+    transition: stroke-dasharray 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Background weather particle elements */
+/* ==========================================
+   9. BOOKMARKS SIDEBAR OVERRIDES
+   ========================================== */
+.offcanvas {
+    background: rgba(13, 9, 23, 0.82) !important;
+    backdrop-filter: blur(35px) !important;
+    -webkit-backdrop-filter: blur(35px) !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.7) !important;
+    width: 350px !important;
+}
+
+.saved-city-card {
+    background: rgba(255, 255, 255, 0.015) !important;
+    border: 1px solid rgba(255, 255, 255, 0.03) !important;
+    transition: background var(--transition-fast), 
+                border-color var(--transition-fast), 
+                transform var(--transition-fast) !important;
+}
+.saved-city-card:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================
+   10. AMBIENT PARTICLES
+   ========================================== */
 .particle-container {
     position: fixed;
     top: 0;
@@ -185,22 +456,66 @@ body {
     100% { transform: translateX(calc(100vw + 250px)); }
 }
 
-/* Custom styling for floating notifications */
+/* ==========================================
+   11. TOAST NOTIFICATIONS
+   ========================================== */
 .toast-container-custom {
     position: fixed;
-    bottom: 24px;
-    left: 24px;
+    bottom: 28px;
+    left: 28px;
     z-index: 2050;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     max-width: 350px;
-    width: calc(100vw - 48px);
+    width: calc(100vw - 56px);
 }
+
 .toast-custom {
+    background: rgba(15, 11, 28, 0.96) !important;
+    backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6) !important;
     animation: scale-up-toast 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
 @keyframes scale-up-toast {
     0% { transform: translateY(30px) scale(0.92); opacity: 0; }
     100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* ==========================================
+   12. MOBILE OVERRIDES & OVERFLOW PREVENTIONS
+   ========================================== */
+@media (max-width: 640px) {
+    .search-wrapper {
+        width: 100% !important;
+    }
+    .weekly-card {
+        padding: 12px 14px !important;
+    }
+    .weekly-day {
+        flex: 0 0 80px;
+        font-size: 14px;
+    }
+    .weekly-bar {
+        width: 60px;
+    }
+    .weekly-desc {
+        font-size: 12px;
+    }
+    
+    @media (max-width: 480px) {
+        .weekly-desc {
+            display: none !important;
+        }
+        .weekly-bar {
+            width: 50px;
+        }
+        .weekly-day {
+            flex: 0 0 70px;
+        }
+    }
 }
