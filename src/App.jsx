@@ -13,9 +13,9 @@ export default function App() {
   // ==========================================
   // 1. APPLICATION STATES
   // ==========================================
-  const [currentCoords, setCurrentCoords] = useState({ lat: 52.52, lon: 13.41 }); // Berlin
-  const [currentCityName, setCurrentCityName] = useState("Berlin");
-  const [currentCountry, setCurrentCountry] = useState("Germany");
+  const [currentCoords, setCurrentCoords] = useState({ lat: 13.0827, lon: 80.2707 }); // Chennai
+  const [currentCityName, setCurrentCityName] = useState("Chennai");
+  const [currentCountry, setCurrentCountry] = useState("India");
   const [weatherData, setWeatherData] = useState(null);
   const [aqiData, setAqiData] = useState(35); // AQI
   const [loading, setLoading] = useState(true);
@@ -107,13 +107,13 @@ export default function App() {
           showToast("Local location loaded!", "success");
         },
         (error) => {
-          console.warn("Geolocation permission denied or timed out. Loading default Berlin.", error);
-          loadWeatherData(52.52, 13.41, "Berlin", "Germany");
+          console.warn("Geolocation permission denied or timed out. Loading default Chennai.", error);
+          loadWeatherData(13.0827, 80.2707, "Chennai", "India");
         },
         { timeout: 6000, enableHighAccuracy: true }
       );
     } else {
-      loadWeatherData(52.52, 13.41, "Berlin", "Germany");
+      loadWeatherData(13.0827, 80.2707, "Chennai", "India");
     }
 
     // C. Click outside suggestions popup listener to close dropdown
@@ -386,63 +386,65 @@ export default function App() {
   
   // A. Header rendering
   const renderHeader = () => (
-    <header className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 py-2">
-      {/* Title Brand Logo */}
-      <div className="d-flex align-items-center gap-2">
-        <div className="brand-logo text-info">
-          <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" strokeWidth="2.5" fill="none">
+    <header className="app-header">
+      {/* Brand Logo */}
+      <div className="brand-mark">
+        <div className="brand-icon">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2.2" fill="none">
             <path d="M17.5 19A3.5 3.5 0 0 0 21 15.5c0-2.79-3.5-6.5-3.5-6.5s-3.5 3.71-3.5 6.5a3.5 3.5 0 0 0 3.5 3.5z"/>
             <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
           </svg>
         </div>
-        <h1 className="h3 mb-0 text-white font-display">AeroSky</h1>
+        <h1 className="brand-name mb-0">AeroSky</h1>
       </div>
 
-      {/* Autocomplete Input and buttons */}
-      <div className="d-flex align-items-center gap-2 w-100 w-md-auto" ref={searchContainerRef} style={{ position: 'relative', zIndex: 70 }}>
-        <div className="search-wrapper flex-grow-1" style={{ maxWidth: '320px' }}>
-          <span className="text-secondary">
-            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-          </span>
+      {/* Search + Controls */}
+      <div className="d-flex align-items-center gap-2 flex-grow-1" ref={searchContainerRef}
+           style={{ position: 'relative', zIndex: 70, maxWidth: '440px' }}>
+        <div className="search-wrapper flex-grow-1">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none" style={{ flexShrink: 0, color: 'var(--text-muted)' }}>
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
           <input
             type="text"
-            className="border-0 bg-transparent text-white px-2 py-1 w-100"
-            placeholder="Search cities..."
+            placeholder="Search a city..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onFocus={() => { if (suggestions.length > 0) setShowSuggestions(true); }}
+            style={{ outline: 'none', fontSize: '0.875rem' }}
           />
           {searchQuery && (
-            <button className="btn p-0 text-secondary" onClick={() => { setSearchQuery(''); setSuggestions([]); }}>
-              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
+            <button
+              style={{ background: 'none', border: 'none', padding: '2px', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', flexShrink: 0 }}
+              onClick={() => { setSearchQuery(''); setSuggestions([]); }}
+            >
+              <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2.5" fill="none">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
               </svg>
             </button>
           )}
 
-          {/* Autocomplete Suggestions Popup List */}
+          {/* Autocomplete Dropdown */}
           {showSuggestions && suggestions.length > 0 && (
-            <div className="autocomplete-list shadow-lg rounded-3 border border-secondary border-opacity-25" style={{ zIndex: 100 }}>
+            <div className="autocomplete-list">
               {suggestions.map((city, idx) => {
                 const admin = city.admin1 ? `, ${city.admin1}` : "";
                 const flag = getFlagEmoji(city.country_code);
                 return (
                   <div
                     key={`${city.id}-${idx}`}
-                    className="autocomplete-item p-2 text-white border-bottom border-secondary border-opacity-10 d-flex justify-content-between align-items-center"
+                    className="autocomplete-item"
                     onClick={() => {
                       loadWeatherData(city.latitude, city.longitude, city.name, city.country);
                       setSearchQuery(`${city.name}, ${city.country}`);
                       setShowSuggestions(false);
                     }}
                   >
-                    <div>
-                      <span className="fw-semibold text-white">{city.name}{admin}</span>
-                      <small className="d-block text-secondary">{city.country} {flag}</small>
+                    <div style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>
+                      {city.name}{admin}
+                    </div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '1px' }}>
+                      {city.country} {flag}
                     </div>
                   </div>
                 );
@@ -451,36 +453,23 @@ export default function App() {
           )}
         </div>
 
-        {/* Action Controls */}
-        <button
-          className="btn btn-outline-secondary border-secondary border-opacity-25 text-white d-flex align-items-center justify-content-center"
-          style={{ height: '50px', width: '50px', borderRadius: '12px' }}
-          onClick={handleGpsTrigger}
-          title="Use location"
-          disabled={gpsLoading}
-        >
+        {/* GPS Button */}
+        <button className="icon-btn" onClick={handleGpsTrigger} title="Use my location" disabled={gpsLoading}>
           {gpsLoading ? (
-            <span className="spinner-border spinner-border-sm text-info" role="status"></span>
+            <div className="loader-ring" style={{ width: '18px', height: '18px', borderWidth: '2px' }}/>
           ) : (
-            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none" className="gps-svg">
-              <circle cx="12" cy="12" r="10"></circle>
-              <circle cx="12" cy="12" r="3"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
+            <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" strokeWidth="2" fill="none" className="gps-svg">
+              <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/>
+              <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
             </svg>
           )}
         </button>
 
-        <button
-          className="btn btn-outline-secondary border-secondary border-opacity-25 text-white d-flex align-items-center justify-content-center"
-          style={{ height: '50px', width: '50px', borderRadius: '12px' }}
-          onClick={() => setSidebarOpen(true)}
-          title="View Saved Favorites"
-        >
-          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none">
-            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+        {/* Bookmarks Button */}
+        <button className="icon-btn" onClick={() => setSidebarOpen(true)} title="Saved locations">
+          <svg viewBox="0 0 24 24" width="17" height="17" stroke="currentColor" strokeWidth="2" fill="none">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
           </svg>
         </button>
       </div>
@@ -494,41 +483,41 @@ export default function App() {
     const minTemp = Math.round(weatherData.daily.temperature_2m_min[0]);
 
     return (
-      <div className="card text-white backdrop-blur border border-secondary border-opacity-25 bg-dark bg-opacity-25 p-4 rounded-4 shadow-lg mb-4">
+      <div className="card hero-card p-4 mb-4">
         <div className="d-flex justify-content-between align-items-start">
           <div>
             <div className="d-flex align-items-center gap-2">
-              <h2 className="h1 mb-0 fw-extrabold">{currentCityName}</h2>
+              <h2 className="city-name mb-0">{currentCityName}</h2>
               <button
-                className="btn p-0 border-0"
+                className={`pin-btn ${isPinned ? 'pinned' : ''}`}
                 onClick={handleTogglePinBookmark}
-                style={{ color: isPinned ? '#ffc107' : '#94a3b8' }}
+                title={isPinned ? 'Remove from favorites' : 'Save to favorites'}
               >
-                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill={isPinned ? '#ffc107' : 'none'}>
-                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2.2" fill={isPinned ? 'currentColor' : 'none'}>
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
                 </svg>
               </button>
             </div>
-            <p className="text-secondary mb-0 mt-1" style={{ fontSize: '14px' }}>{currentDate}</p>
-            <small className="text-muted text-uppercase tracking-wider fw-semibold" style={{ fontSize: '11px' }}>{localTime}</small>
+            <p className="hero-meta mt-2 mb-0">{currentDate}</p>
+            <p className="hero-meta mb-0" style={{ marginTop: '2px' }}>{localTime}</p>
           </div>
 
-          <div className="weather-icon-large">
-            <WeatherIcon name={currentParsedWeather.icon} width={100} animated={true} />
+          <div>
+            <WeatherIcon name={currentParsedWeather.icon} width={96} animated={true} />
           </div>
         </div>
 
         <div className="d-flex justify-content-between align-items-end mt-4">
           <div className="d-flex align-items-start">
-            <span className="font-display fw-bold display-3 lh-1">{curTemp}</span>
-            <span className="h4 text-info fw-semibold mt-1">°C</span>
+            <span className="hero-temp">{curTemp}</span>
+            <span className="hero-temp-unit">°C</span>
           </div>
 
           <div className="text-end">
-            <h4 className="h5 fw-bold mb-1">{currentParsedWeather.desc}</h4>
-            <span className="text-secondary fw-semibold" style={{ fontSize: '13px' }}>
-              H: {maxTemp}° <span className="text-muted px-1">|</span> L: {minTemp}°
-            </span>
+            <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '4px' }}>{currentParsedWeather.desc}</div>
+            <div className="badge-pill">
+              H: {maxTemp}°&nbsp;&nbsp;·&nbsp;&nbsp;L: {minTemp}°
+            </div>
           </div>
         </div>
       </div>
@@ -546,50 +535,53 @@ export default function App() {
     const uvVal = Math.round(daily.uv_index_max[0]);
     const pressure = Math.round(cur.pressure_msl);
 
-    // Feels like advice
     const tempDiff = Math.round(feels - cur.temperature_2m);
-    let feelsDesc = "Feels like actual temp";
-    if (tempDiff > 1) feelsDesc = "Slightly warmer";
-    else if (tempDiff < -1) feelsDesc = "Feels cooler";
+    let feelsDesc = "Matches actual temperature";
+    if (tempDiff > 1) feelsDesc = "Feels slightly warmer";
+    else if (tempDiff < -1) feelsDesc = "Feels slightly cooler";
 
-    // Humidity advice
-    let humDesc = "Comfortable";
-    if (humidity > 70) humDesc = "Humid, damp";
+    let humDesc = "Comfortable humidity";
+    if (humidity > 70) humDesc = "Humid & damp air";
     else if (humidity < 35) humDesc = "Dry ambient air";
 
-    // wind
     const compassDir = getWindDirectionText(cur.wind_direction_10m);
 
-    // metrics data mapping
     const metrics = [
-      { id: 1, name: "Feels Like", value: `${feels}°C`, desc: feelsDesc, color: 'text-danger', svg: <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/> },
-      { id: 2, name: "Humidity", value: `${humidity}%`, desc: humDesc, color: 'text-primary', progress: humidity, svg: <path d="M12 22a7 7 0 0 0 7-7c0-4.3-7-13-7-13S5 10.7 5 15a7 7 0 0 0 7 7z"/> },
-      { id: 3, name: "Wind Speed", value: `${windSpeed} km/h`, desc: `Direction: ${compassDir}`, color: 'text-success', svg: <><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2L2 12l10 10"></path></> },
-      { id: 4, name: "UV Index", value: `${uvVal} (${getUvIndexBadge(uvVal)})`, desc: getUvIndexDescription(uvVal), color: 'text-warning', progress: Math.min(uvVal * 10, 100), svg: <><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></> },
-      { id: 5, name: "Pressure", value: `${pressure} hPa`, desc: pressure > 1018 ? "High pressure" : pressure < 1009 ? "Low pressure" : "Stable pressure", color: 'text-info', svg: <><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></> },
-      { id: 6, name: "Visibility", value: `${visibilityEstimate} km`, desc: visibilityEstimate > 8 ? "Perfect clarity" : "Reduced visibility", color: 'text-teal', svg: <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/> }
+      { id: 1, name: "Feels Like", value: `${feels}°C`, desc: feelsDesc, accent: 'pink',
+        svg: <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/> },
+      { id: 2, name: "Humidity", value: `${humidity}%`, desc: humDesc, accent: 'blue', progress: humidity,
+        svg: <path d="M12 22a7 7 0 0 0 7-7c0-4.3-7-13-7-13S5 10.7 5 15a7 7 0 0 0 7 7z"/> },
+      { id: 3, name: "Wind Speed", value: `${windSpeed} km/h`, desc: `Direction: ${compassDir}`, accent: 'green', isWind: true,
+        svg: <><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2L2 12l10 10"/></> },
+      { id: 4, name: "UV Index", value: `${uvVal} — ${getUvIndexBadge(uvVal)}`, desc: getUvIndexDescription(uvVal), accent: 'orange', progress: Math.min(uvVal * 10, 100),
+        svg: <><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></> },
+      { id: 5, name: "Pressure", value: `${pressure} hPa`, desc: pressure > 1018 ? "High pressure system" : pressure < 1009 ? "Low pressure system" : "Stable pressure", accent: 'purple',
+        svg: <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></> },
+      { id: 6, name: "Visibility", value: `${visibilityEstimate} km`, desc: visibilityEstimate > 8 ? "Crystal clear conditions" : "Reduced visibility", accent: 'teal',
+        svg: <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/> }
     ];
 
     return (
       <div className="row g-3">
         {metrics.map(m => (
-          <div key={m.id} className="col-md-6">
-            <div className="card h-100 text-white backdrop-blur border border-secondary border-opacity-25 bg-dark bg-opacity-25 p-3 rounded-4">
-              <div className="d-flex align-items-center gap-3">
-                <div className={`p-2 rounded bg-white bg-opacity-5 ${m.color}`} style={{ width: '42px', height: '42px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" className={m.id === 3 ? "wind-spinner" : ""}>
+          <div key={m.id} className="col-6">
+            <div className="card h-100">
+              <div className="stat-card">
+                <div className={`stat-icon-wrap ${m.accent}`}>
+                  <svg viewBox="0 0 24 24" width="19" height="19" stroke="currentColor" strokeWidth="2" fill="none"
+                       className={m.isWind ? 'wind-rotate' : ''}>
                     {m.svg}
                   </svg>
                 </div>
-                <div className="min-w-0 flex-grow-1">
-                  <small className="text-secondary text-uppercase tracking-wider fw-bold d-block" style={{ fontSize: '10.5px' }}>{m.name}</small>
-                  <span className="fw-bold fs-5 font-display d-block my-1">{m.value}</span>
+                <div style={{ minWidth: 0, flex: 1 }}>
+                  <div className="stat-label">{m.name}</div>
+                  <div className="stat-value">{m.value}</div>
                   {m.progress !== undefined && (
-                    <div className="progress mb-1" style={{ height: '4px', background: 'rgba(255,255,255,0.06)' }}>
-                      <div className="progress-bar bg-info" style={{ width: `${m.progress}%` }}></div>
+                    <div className="stat-progress">
+                      <div className="stat-progress-fill" style={{ width: `${m.progress}%` }}/>
                     </div>
                   )}
-                  <small className="text-muted text-truncate d-block" style={{ fontSize: '11px' }}>{m.desc}</small>
+                  <div className="stat-desc">{m.desc}</div>
                 </div>
               </div>
             </div>
@@ -628,23 +620,19 @@ export default function App() {
     }
 
     return (
-      <div className="card text-white backdrop-blur border border-secondary border-opacity-25 bg-dark bg-opacity-25 p-4 rounded-4 shadow-lg mb-4">
+      <div className="card p-4 mb-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h3 className="h5 fw-bold mb-0">Hourly Forecast</h3>
-          <span className="badge bg-secondary bg-opacity-25 border border-secondary border-opacity-25 text-secondary px-2 py-1">Next 24 Hours</span>
+          <h3 className="section-title mb-0">Hourly Forecast</h3>
+          <span className="section-badge">Next 24h</span>
         </div>
-
         <div className="hourly-scroll">
           {hourlyEntries.map(entry => (
-            <div
-              key={entry.id}
-              className={`hourly-item text-center rounded-3 p-3 bg-white bg-opacity-5 border border-secondary border-opacity-10 ${entry.id === 0 ? 'bg-opacity-10 border-opacity-25' : ''}`}
-            >
-              <small className="text-secondary fw-semibold d-block mb-2" style={{ fontSize: '11.5px' }}>{entry.label}</small>
-              <div className="d-flex align-items-center justify-content-center mb-2" style={{ height: '36px' }}>
-                <WeatherIcon name={entry.icon} width={36} animated={false} />
+            <div key={entry.id} className={`hourly-item ${entry.id === 0 ? 'current' : ''}`}>
+              <div className="hourly-time">{entry.label}</div>
+              <div style={{ height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <WeatherIcon name={entry.icon} width={32} animated={false} />
               </div>
-              <span className="fw-bold font-display">{entry.temp}°</span>
+              <div className="hourly-temp">{entry.temp}°</div>
             </div>
           ))}
         </div>
@@ -659,13 +647,12 @@ export default function App() {
     const currentDay = new Date().getDay();
 
     return (
-      <div className="card text-white backdrop-blur border border-secondary border-opacity-25 bg-dark bg-opacity-25 p-4 rounded-4 shadow-lg mb-4">
+      <div className="card p-4 mb-4">
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h3 className="h5 fw-bold mb-0">7-Day Outlook</h3>
-          <span className="badge bg-secondary bg-opacity-25 border border-secondary border-opacity-25 text-secondary px-2 py-1">Weekly Projection</span>
+          <h3 className="section-title mb-0">7-Day Outlook</h3>
+          <span className="section-badge">Weekly</span>
         </div>
-
-        <div className="d-flex flex-column gap-2">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
           {daily.weather_code.map((code, idx) => {
             const maxTemp = Math.round(daily.temperature_2m_max[idx]);
             const minTemp = Math.round(daily.temperature_2m_min[idx]);
@@ -673,55 +660,42 @@ export default function App() {
             const minApp = Math.round(daily.apparent_temperature_min[idx]);
             const precip = daily.precipitation_probability_max[idx];
             const uv = Math.round(daily.uv_index_max[idx]);
-
             const weatherInfo = parseWeather(code, true);
-            const dayName = idx === 0 ? "Today" : days[(currentDay + idx) % 7];
-
-            // Sliding range bar calculations
-            const leftPercent = Math.max(0, Math.min(80, (minTemp + 10) * 2));
-            const barWidth = Math.max(20, Math.min(80, (maxTemp - minTemp) * 3));
-
+            const dayName = idx === 0 ? 'Today' : days[(currentDay + idx) % 7];
+            const leftPct = Math.max(0, Math.min(72, (minTemp + 10) * 2));
+            const barW   = Math.max(16, Math.min(72, (maxTemp - minTemp) * 3));
             const isExpanded = expandedWeekIndex === idx;
-
             return (
-              <div key={idx} className="border border-secondary border-opacity-10 rounded-3 overflow-hidden">
-                {/* Header Clickable strip */}
-                <div
-                  className="weekly-hover-card p-3 bg-white bg-opacity-5 d-flex align-items-center justify-content-between"
-                  onClick={() => setExpandedWeekIndex(isExpanded ? null : idx)}
-                >
-                  <span className="weekly-day text-white fw-semibold">{dayName}</span>
-                  
-                  <div className="weekly-status-group text-secondary">
-                    <div className="weekly-status-icon d-inline-block align-middle me-2">
-                      <WeatherIcon name={weatherInfo.icon} width={28} animated={false} />
-                    </div>
-                    <span className="small weekly-desc align-middle d-inline-block">{weatherInfo.desc}</span>
+              <div key={idx} style={{ borderRadius: 'var(--r-md)', overflow: 'hidden' }}>
+                <div className="weekly-row" onClick={() => setExpandedWeekIndex(isExpanded ? null : idx)}>
+                  <span className="weekly-day">{dayName}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1, justifyContent: 'center' }}>
+                    <WeatherIcon name={weatherInfo.icon} width={26} animated={false} />
+                    <span className="weekly-desc">{weatherInfo.desc}</span>
                   </div>
-
-                  <div className="weekly-temp-bar-container">
-                    <span className="weekly-temp-low small text-muted">{minTemp}°</span>
-                    <div className="weekly-bar d-none d-sm-block">
-                      <div className="weekly-bar-fill" style={{ left: `${leftPercent}%`, width: `${barWidth}px` }}></div>
+                  <div className="temp-range">
+                    <span className="temp-range-low">{minTemp}°</span>
+                    <div className="temp-range-bar">
+                      <div className="temp-range-fill" style={{ left: `${leftPct}%`, width: `${barW}px` }}/>
                     </div>
-                    <span className="weekly-temp-high small fw-bold">{maxTemp}°</span>
+                    <span className="temp-range-high">{maxTemp}°</span>
                   </div>
                 </div>
-
-                {/* Expanded Accordion parameters */}
                 {isExpanded && (
-                  <div className="p-3 bg-black bg-opacity-25 border-top border-secondary border-opacity-10 row g-2 text-center text-sm-start">
-                    <div className="col-4">
-                      <small className="text-muted text-uppercase d-block" style={{ fontSize: '9.5px', fontWeight: 700 }}>Apparent Limit</small>
-                      <span className="fw-semibold small text-white">{minApp}°C to {maxApp}°C</span>
-                    </div>
-                    <div className="col-4">
-                      <small className="text-muted text-uppercase d-block" style={{ fontSize: '9.5px', fontWeight: 700 }}>Precip. Prob.</small>
-                      <span className="fw-semibold small text-white">{precip}%</span>
-                    </div>
-                    <div className="col-4">
-                      <small className="text-muted text-uppercase d-block" style={{ fontSize: '9.5px', fontWeight: 700 }}>UV Max</small>
-                      <span className="fw-semibold small text-white">{uv} ({getUvIndexBadge(uv)})</span>
+                  <div className="weekly-expand">
+                    <div className="row g-2 text-center">
+                      <div className="col-4">
+                        <div className="expand-label">Feels like</div>
+                        <div className="expand-value">{minApp}° – {maxApp}°</div>
+                      </div>
+                      <div className="col-4">
+                        <div className="expand-label">Rain chance</div>
+                        <div className="expand-value">{precip}%</div>
+                      </div>
+                      <div className="col-4">
+                        <div className="expand-label">UV peak</div>
+                        <div className="expand-value">{uv} · {getUvIndexBadge(uv)}</div>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -775,78 +749,51 @@ export default function App() {
     }
 
     return (
-      <div className="card text-white backdrop-blur border border-secondary border-opacity-25 bg-dark bg-opacity-25 p-4 rounded-4 shadow-lg mb-4">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h3 className="h5 fw-bold mb-0">AeroGuide & Health</h3>
-          <span className="badge bg-secondary bg-opacity-25 border border-secondary border-opacity-25 text-secondary px-2 py-1">Outdoor Conditions</span>
+      <div className="card p-4 mb-4">
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h3 className="section-title mb-0">Health Guide</h3>
+          <span className="section-badge">Outdoors</span>
         </div>
-
         <div className="row g-4 align-items-center">
-          {/* AQI circular chart dial gauge */}
-          <div className="col-sm-5 d-flex justify-content-center">
-            <div className="aqi-dial position-relative" style={{ width: '110px', height: '110px' }}>
-              <svg viewBox="0 0 36 36" className="circular-chart">
-                <path
-                  className="circle-bg"
+          {/* AQI Dial */}
+          <div className="col-sm-4 d-flex justify-content-center">
+            <div style={{ position: 'relative', width: '100px', height: '100px' }}>
+              <svg viewBox="0 0 36 36" width="100" height="100">
+                <path className="aqi-ring-bg"
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  fill="none"
-                  strokeWidth="2.5"
+                  fill="none" strokeWidth="2.8" stroke="rgba(255,255,255,0.06)"
                 />
-                <path
-                  className="circle"
+                <path className="aqi-ring"
                   strokeDasharray={`${strokeDash}, 100`}
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  fill="none"
-                  stroke={circleColor}
-                  strokeWidth="2.5"
+                  fill="none" stroke={circleColor} strokeWidth="2.8" strokeLinecap="round"
                 />
               </svg>
-              <div className="aqi-info text-center position-absolute top-50 start-50 translate-middle d-flex flex-column align-items-center">
-                <span className="text-secondary text-uppercase tracking-wider fw-bold" style={{ fontSize: '9px' }}>AQI</span>
-                <span className="fw-extrabold h3 mb-0 font-display">{aqiData}</span>
-                <span className={`badge bg-opacity-10 text-${badgeClass} mt-1`} style={{ fontSize: '9px', textTransform: 'uppercase' }}>{badgeText}</span>
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>AQI</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.5rem', lineHeight: 1, color: 'var(--text-primary)' }}>{aqiData}</span>
+                <span style={{ fontSize: '0.6rem', fontWeight: 700, color: circleColor, textTransform: 'uppercase', marginTop: '2px' }}>{badgeText}</span>
               </div>
             </div>
           </div>
-
-          {/* Details suggestions items */}
-          <div className="col-sm-7">
-            <div className="d-flex flex-column gap-3">
-              <div className="d-flex align-items-start gap-2">
-                <div className="text-success pt-1">
-                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none">
-                    <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
-                  </svg>
+          {/* Health Items */}
+          <div className="col-sm-8">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {[
+                { icon: <path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>, color: 'var(--color-green)', label: 'Outdoor Activity', text: activities },
+                { icon: <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>, color: 'var(--color-blue)', label: 'Clothing', text: clothing },
+                { icon: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>, color: 'var(--color-amber)', label: 'Sun Protection', text: sunProtect },
+              ].map((item, i) => (
+                <div key={i} className="health-item">
+                  <div className="health-icon" style={{ background: `${item.color}18`, color: item.color }}>
+                    <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" strokeWidth="2.5" fill="none">{item.icon}</svg>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--text-muted)', marginBottom: '2px' }}>{item.label}</div>
+                    <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>{item.text}</div>
+                  </div>
                 </div>
-                <div>
-                  <h6 className="fw-bold mb-1" style={{ fontSize: '13.5px' }}>Outdoor Activities</h6>
-                  <p className="text-secondary small mb-0">{activities}</p>
-                </div>
-              </div>
-
-              <div className="d-flex align-items-start gap-2">
-                <div className="text-info pt-1">
-                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none">
-                    <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
-                  </svg>
-                </div>
-                <div>
-                  <h6 className="fw-bold mb-1" style={{ fontSize: '13.5px' }}>Clothing Advice</h6>
-                  <p className="text-secondary small mb-0">{clothing}</p>
-                </div>
-              </div>
-
-              <div className="d-flex align-items-start gap-2">
-                <div className="text-warning pt-1">
-                  <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                  </svg>
-                </div>
-                <div>
-                  <h6 className="fw-bold mb-1" style={{ fontSize: '13.5px' }}>Sun Protection</h6>
-                  <p className="text-secondary small mb-0">{sunProtect}</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -858,56 +805,56 @@ export default function App() {
   const renderSidebar = () => (
     <>
       <div
-        className={`offcanvas offcanvas-end bg-dark text-white backdrop-blur border-start border-secondary border-opacity-25 ${sidebarOpen ? 'show' : ''}`}
-        style={{
-          visibility: sidebarOpen ? 'visible' : 'hidden',
-          transition: 'transform 0.35s ease-in-out',
-          zIndex: 1050
-        }}
+        className={`offcanvas offcanvas-end ${sidebarOpen ? 'show' : ''}`}
+        style={{ visibility: sidebarOpen ? 'visible' : 'hidden', zIndex: 1050 }}
         tabIndex="-1"
       >
-        <div className="offcanvas-header border-bottom border-secondary border-opacity-10 py-4 px-3 d-flex justify-content-between align-items-center">
-          <h5 className="offcanvas-title fw-bold">Saved Locations</h5>
-          <button className="btn p-0 text-white" onClick={() => setSidebarOpen(false)} aria-label="Close">
-            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
+        {/* Sidebar Header */}
+        <div style={{ padding: '20px 20px 16px', borderBottom: '1px solid var(--glass-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h5 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1rem', margin: 0, color: 'var(--text-primary)' }}>Saved Locations</h5>
+          <button
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-secondary)', padding: '4px', display: 'flex', borderRadius: 'var(--r-sm)' }}
+            onClick={() => setSidebarOpen(false)} aria-label="Close"
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
           </button>
         </div>
-
-        <div className="offcanvas-body p-3">
-          <div className="d-flex flex-column gap-3">
+        {/* Sidebar Body */}
+        <div style={{ padding: '16px', overflowY: 'auto', flex: 1 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {savedLocations.length === 0 ? (
-              <div className="text-center py-5 text-secondary">
-                <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" strokeWidth="1" fill="none" className="mb-3 opacity-25">
-                  <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"></path>
+              <div style={{ textAlign: 'center', padding: '48px 16px', color: 'var(--text-muted)' }}>
+                <svg viewBox="0 0 24 24" width="40" height="40" stroke="currentColor" strokeWidth="1" fill="none" style={{ opacity: 0.25, marginBottom: '12px' }}>
+                  <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
                 </svg>
-                <p className="small mb-0">No saved locations yet. Search a city and click the pin icon to bookmark.</p>
+                <p style={{ fontSize: '0.82rem', margin: 0 }}>Search a city and tap the bookmark icon to save it here.</p>
               </div>
             ) : (
               savedLocations.map(loc => (
                 <div
                   key={loc.name}
-                  className="saved-city-card p-3 rounded-3 bg-white bg-opacity-5 border border-secondary border-opacity-10 d-flex justify-content-between align-items-center"
+                  className="saved-city-card"
                   onClick={() => handleSelectBookmark(loc)}
-                  style={{ cursor: 'pointer' }}
                 >
-                  <div>
-                    <span className="fw-bold d-block text-white" style={{ fontSize: '15px' }}>{loc.name}</span>
-                    <small className="text-secondary" style={{ fontSize: '12px' }}>{loc.country}</small>
-                  </div>
-                  <div className="d-flex align-items-center gap-3">
-                    <span className="fw-extrabold font-display fs-4 text-white">{loc.temp}°</span>
-                    <button
-                      className="btn btn-sm btn-outline-danger border-0 p-1 rounded-circle"
-                      onClick={(e) => { e.stopPropagation(); handleDeleteBookmark(loc.name); }}
-                    >
-                      <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                      </svg>
-                    </button>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--text-primary)' }}>{loc.name}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '2px' }}>{loc.country}</div>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.25rem', color: 'var(--text-primary)' }}>{loc.temp}°</span>
+                      <button
+                        style={{ background: 'rgba(240,98,146,0.1)', border: 'none', padding: '6px', borderRadius: 'var(--r-sm)', cursor: 'pointer', color: 'var(--color-pink)', display: 'flex' }}
+                        onClick={(e) => { e.stopPropagation(); handleDeleteBookmark(loc.name); }}
+                      >
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2.5" fill="none">
+                          <polyline points="3 6 5 6 21 6"/>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))
@@ -915,37 +862,29 @@ export default function App() {
           </div>
         </div>
       </div>
-      {/* offcanvas overlay dark backdrop */}
-      {sidebarOpen && <div className="offcanvas-backdrop fade show" style={{ zIndex: 1040 }} onClick={() => setSidebarOpen(false)}></div>}
+      {sidebarOpen && <div className="offcanvas-backdrop fade show" style={{ zIndex: 1040 }} onClick={() => setSidebarOpen(false)}/>}
     </>
   );
 
   return (
     <>
-      {/* Background weather particle physics */}
+      {/* Weather ambient particles */}
       <Particles weatherState={currentParsedWeather.state} />
 
-      {/* Ambient glowing radial layers */}
-      <div className="ambient-glow glow-1"></div>
-      <div className="ambient-glow glow-2"></div>
-
       <div className="container py-4" style={{ position: 'relative', zIndex: 10 }}>
-        {/* Bookmarked lists drawer */}
         {renderSidebar()}
 
-        <div className="dashboard">
-          {/* Header controls (Navbar inputs / GPS actions) */}
+        <div>
           {renderHeader()}
 
           {weatherData ? (
-            <div className="row g-4">
-              {/* LEFT SIDEBAR PANEL: Main weather card & metrics */}
+            <div className="row g-4 mt-0">
+              {/* Left: Hero + Stats */}
               <div className="col-lg-7">
                 {renderHeroCard()}
                 {renderStats()}
               </div>
-
-              {/* RIGHT CONTAINER: Projections scroll and health guides */}
+              {/* Right: Hourly + Weekly + Health */}
               <div className="col-lg-5">
                 {renderHourly()}
                 {renderWeekly()}
@@ -953,41 +892,39 @@ export default function App() {
               </div>
             </div>
           ) : (
-            // Full screen loader spinner
-            <div className="d-flex flex-column align-items-center justify-content-center" style={{ height: '60vh' }}>
-              <div className="spinner-border text-info mb-3" style={{ width: '3rem', height: '3rem' }} role="status"></div>
-              <span className="text-secondary fw-semibold">Initialising atmospheric forecast dashboard...</span>
+            <div className="loader-wrap">
+              <div className="loader-ring"/>
+              <span className="loader-text">Loading atmospheric data...</span>
             </div>
           )}
 
-          {/* Footer credentials */}
-          <footer className="app-footer mt-5 text-center py-4 border-top border-secondary border-opacity-10">
-            <p className="small mb-0 text-muted">
-              &copy; 2026 AeroSky. Powered by keyless <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo Weather APIs</a>. Designed with premium glassmorphism.
-            </p>
+          <footer className="app-footer">
+            &copy; 2026 AeroSky &mdash; Powered by{' '}
+            <a href="https://open-meteo.com" target="_blank" rel="noopener noreferrer">Open-Meteo</a>
+            <br />
+            developed by ahamed
           </footer>
         </div>
       </div>
 
-      {/* Floating Alerts Toasts Stack */}
-      <div className="toast-container-custom">
+      {/* Toast Notifications */}
+      <div className="toast-stack">
         {toasts.map(t => (
           <div
             key={t.id}
+            className={`toast-item ${t.type}`}
             onClick={() => removeToast(t.id)}
-            className={`toast-custom d-flex align-items-center p-3 rounded-3 text-white border-start border-4 border-top-0 border-end-0 border-bottom-0 shadow-lg bg-dark bg-opacity-95 border-${t.type === 'success' ? 'success' : t.type === 'danger' ? 'danger' : 'info'}`}
-            style={{ cursor: 'pointer' }}
           >
-            <div className="me-2 text-white">
+            <div style={{ color: t.type === 'success' ? 'var(--color-green)' : t.type === 'danger' ? 'var(--color-pink)' : t.type === 'warning' ? 'var(--color-amber)' : 'var(--color-blue)', flexShrink: 0 }}>
               {t.type === 'success' ? (
-                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2.5" fill="none"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none"><polyline points="20 6 9 17 4 12"/></svg>
               ) : t.type === 'danger' ? (
-                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2.5" fill="none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2.5" fill="none"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
               ) : (
-                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2" fill="none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="8"></line></svg>
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="2" fill="none"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="8"/></svg>
               )}
             </div>
-            <span className="fw-semibold small">{t.message}</span>
+            <span className="toast-text">{t.message}</span>
           </div>
         ))}
       </div>
